@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Girl Animation</title>
+    <title>Animated Girl</title>
     <style>
         body {
             display: flex;
@@ -28,9 +28,23 @@
         canvas.height = 500;
 
         let frame = 0;
+        let mouseX = 250, mouseY = 150;
+
+        canvas.addEventListener("mousemove", (event) => {
+            let rect = canvas.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+        });
 
         function drawGirl() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Hair
+            ctx.fillStyle = "#8B5A2B";
+            ctx.beginPath();
+            ctx.ellipse(250, 150, 70, 90, 0, Math.PI * 2, false);
+            ctx.fill();
+            ctx.closePath();
             
             // Head
             ctx.beginPath();
@@ -39,29 +53,45 @@
             ctx.fill();
             ctx.closePath();
 
-            // Eyes (Blinking effect)
+            // Eyes (Follow Mouse Effect)
+            let eyeOffsetX = (mouseX - 250) * 0.05;
+            let eyeOffsetY = (mouseY - 150) * 0.05;
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(235, 140, 10, 0, Math.PI * 2);
+            ctx.arc(265, 140, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+            
+            // Pupils
             ctx.fillStyle = "black";
-            if (frame % 50 < 45) {
-                ctx.beginPath();
-                ctx.arc(235, 140, 5, 0, Math.PI * 2);
-                ctx.arc(265, 140, 5, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.closePath();
-            }
+            ctx.beginPath();
+            ctx.arc(235 + eyeOffsetX, 140 + eyeOffsetY, 5, 0, Math.PI * 2);
+            ctx.arc(265 + eyeOffsetX, 140 + eyeOffsetY, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+            // Mouth
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(250, 170, 10, 0, Math.PI * 0.5);
+            ctx.stroke();
+            ctx.closePath();
 
             // Body
             ctx.fillStyle = "#ff69b4";
-            ctx.fillRect(230, 200, 40, 80);
+            ctx.fillRect(220, 200, 60, 80);
 
             // Arms (Waving effect)
             ctx.strokeStyle = "#fddbb5";
             ctx.lineWidth = 8;
             ctx.beginPath();
             let waveOffset = Math.sin(frame * 0.1) * 10;
-            ctx.moveTo(230, 220);
-            ctx.lineTo(190, 220 + waveOffset);
-            ctx.moveTo(270, 220);
-            ctx.lineTo(310, 220 - waveOffset);
+            ctx.moveTo(220, 220);
+            ctx.lineTo(180, 220 + waveOffset);
+            ctx.moveTo(280, 220);
+            ctx.lineTo(320, 220 - waveOffset);
             ctx.stroke();
             ctx.closePath();
 
@@ -69,10 +99,10 @@
             ctx.strokeStyle = "black";
             ctx.lineWidth = 10;
             ctx.beginPath();
-            ctx.moveTo(240, 280);
-            ctx.lineTo(240, 340);
-            ctx.moveTo(260, 280);
-            ctx.lineTo(260, 340);
+            ctx.moveTo(235, 280);
+            ctx.lineTo(235, 340);
+            ctx.moveTo(265, 280);
+            ctx.lineTo(265, 340);
             ctx.stroke();
             ctx.closePath();
 
@@ -84,3 +114,4 @@
     </script>
 </body>
 </html>
+
