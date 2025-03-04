@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girl Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+        }
+        canvas {
+            background-color: white;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 500;
+        canvas.height = 500;
+
+        let frame = 0;
+
+        function drawGirl() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Head
+            ctx.beginPath();
+            ctx.arc(250, 150, 50, 0, Math.PI * 2);
+            ctx.fillStyle = "#fddbb5";
+            ctx.fill();
+            ctx.closePath();
+
+            // Eyes (Blinking effect)
+            ctx.fillStyle = "black";
+            if (frame % 50 < 45) {
+                ctx.beginPath();
+                ctx.arc(235, 140, 5, 0, Math.PI * 2);
+                ctx.arc(265, 140, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            // Body
+            ctx.fillStyle = "#ff69b4";
+            ctx.fillRect(230, 200, 40, 80);
+
+            // Arms (Waving effect)
+            ctx.strokeStyle = "#fddbb5";
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            let waveOffset = Math.sin(frame * 0.1) * 10;
+            ctx.moveTo(230, 220);
+            ctx.lineTo(190, 220 + waveOffset);
+            ctx.moveTo(270, 220);
+            ctx.lineTo(310, 220 - waveOffset);
+            ctx.stroke();
+            ctx.closePath();
+
+            // Legs
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.moveTo(240, 280);
+            ctx.lineTo(240, 340);
+            ctx.moveTo(260, 280);
+            ctx.lineTo(260, 340);
+            ctx.stroke();
+            ctx.closePath();
+
+            frame++;
+            requestAnimationFrame(drawGirl);
+        }
+
+        drawGirl();
+    </script>
+</body>
+</html>
