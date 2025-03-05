@@ -29,16 +29,54 @@
             uniform vec2 u_resolution;
             uniform float u_time;
             void main() {
+                vec2 uv = g<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL Realistic Girl Shader</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <canvas id="glCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('glCanvas');
+        const gl = canvas.getContext('webgl');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
+        `;
+
+        const fragmentShaderSource = `
+            precision mediump float;
+            uniform vec2 u_resolution;
+            uniform float u_time;
+            
+            void main() {
                 vec2 uv = gl_FragCoord.xy / u_resolution.xy;
                 uv -= 0.5;
                 uv.x *= u_resolution.x / u_resolution.y;
-                float d = length(uv);
-                float glow = sin(u_time + d * 10.0) * 0.5 + 0.5;
-                vec3 color = vec3(1.0, 0.6, 0.8) * glow;
-                float hair = sin(uv.y * 10.0 + u_time * 2.0) * 0.1;
-                color.r += hair;
-                float eye = smoothstep(0.02, 0.03, abs(uv.x - 0.1) - 0.01) * smoothstep(0.02, 0.03, abs(uv.y + 0.1) - 0.01);
-                color += vec3(1.0, 0.8, 1.0) * eye;
+                
+                vec3 skinColor = vec3(1.0, 0.8, 0.7);
+                vec3 hairColor = vec3(0.2, 0.1, 0.05);
+                vec3 eyeGlow = vec3(0.8, 0.9, 1.0);
+                
+                float face = smoothstep(0.4, 0.2, length(uv));
+                float hair = smoothstep(0.45, 0.4, abs(uv.x) + abs(uv.y - 0.2));
+                float eye = smoothstep(0.03, 0.01, length(uv - vec2(-0.1, 0.1))) + 
+                            smoothstep(0.03, 0.01, length(uv - vec2(0.1, 0.1)));
+                
+                vec3 color = mix(hairColor, skinColor, face);
+                color = mix(color, eyeGlow, eye * (0.5 + 0.5 * sin(u_time * 2.0)));
+                
                 gl_FragColor = vec4(color, 1.0);
             }
         `;
