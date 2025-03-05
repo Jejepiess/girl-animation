@@ -28,8 +28,11 @@
         function drawAnimeGirl() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Hair
-            ctx.fillStyle = "#FCE4EC";
+            // Hair (Blonde with soft shading)
+            let hairGradient = ctx.createLinearGradient(150, 100, 250, 300);
+            hairGradient.addColorStop(0, "#FFF9C4");
+            hairGradient.addColorStop(1, "#FFECB3");
+            ctx.fillStyle = hairGradient;
             ctx.beginPath();
             ctx.ellipse(200, 200, 120, 160, 0, 0, Math.PI * 2);
             ctx.fill();
@@ -40,27 +43,37 @@
             ctx.ellipse(200, 220, 80, 100, 0, 0, Math.PI * 2);
             ctx.fill();
             
-            // Eyes
+            // Eyes (Big, expressive, blue anime eyes)
             ctx.fillStyle = "white";
             ctx.beginPath();
-            ctx.ellipse(170, 220, 20, 30, 0, 0, Math.PI * 2);
-            ctx.ellipse(230, 220, 20, 30, 0, 0, Math.PI * 2);
+            ctx.ellipse(170, 220, 25, 35, 0, 0, Math.PI * 2);
+            ctx.ellipse(230, 220, 25, 35, 0, 0, Math.PI * 2);
             ctx.fill();
             
-            ctx.fillStyle = "#3498db";
+            let eyeGradient = ctx.createLinearGradient(160, 200, 180, 250);
+            eyeGradient.addColorStop(0, "#64B5F6");
+            eyeGradient.addColorStop(1, "#1E88E5");
+            ctx.fillStyle = eyeGradient;
             ctx.beginPath();
-            ctx.ellipse(170, 220, 10, 15, 0, 0, Math.PI * 2);
-            ctx.ellipse(230, 220, 10, 15, 0, 0, Math.PI * 2);
+            ctx.ellipse(170, 220, 15, 20, 0, 0, Math.PI * 2);
+            ctx.ellipse(230, 220, 15, 20, 0, 0, Math.PI * 2);
             ctx.fill();
             
             // Pupils
             ctx.fillStyle = "black";
             ctx.beginPath();
-            ctx.ellipse(170, 220, 5, 10, 0, 0, Math.PI * 2);
-            ctx.ellipse(230, 220, 5, 10, 0, 0, Math.PI * 2);
+            ctx.ellipse(170, 220, 7, 14, 0, 0, Math.PI * 2);
+            ctx.ellipse(230, 220, 7, 14, 0, 0, Math.PI * 2);
             ctx.fill();
             
-            // Mouth
+            // Eye Highlights
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(165, 210, 4, 0, Math.PI * 2);
+            ctx.arc(225, 210, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Mouth (Subtle and cute)
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
             ctx.beginPath();
